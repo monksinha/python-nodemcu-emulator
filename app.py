@@ -5,8 +5,27 @@ import json
 import time
 import threading
 
+"""   in Main Branch; used for single simulator python sensor hub
+#     now in "the multi-room-simulator", we will read these from config/chamber.json and config/grow_room.json
 THINGSBOARD_HOST = "localhost"
 ACCESS_TOKEN = "i97AxAaOvM138vkJ5TL9"
+"""
+
+
+import sys
+import os
+
+CONFIG_FILE = sys.argv[1] if len(sys.argv) > 1 else "config/grow.json"
+
+with open(CONFIG_FILE) as f:
+    config = json.load(f)
+
+THINGSBOARD_HOST = config.get("host", "localhost")
+ACCESS_TOKEN = config["access_token"]
+DEVICE_NAME = config.get("device_name", "Simulator")
+
+
+
 
 client = mqtt.Client()
 client.username_pw_set(ACCESS_TOKEN)
@@ -55,7 +74,7 @@ def update_co2(val):
 
 
 root = tk.Tk()
-root.title("IoT Sensor Simulator")
+root.title(f"{DEVICE_NAME} Sensor Simulator")
 root.geometry("400x350")
 
 

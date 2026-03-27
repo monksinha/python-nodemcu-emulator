@@ -1,3 +1,174 @@
+# ThingsBoard Multi-Room Sensor Simulator
+
+This project simulates sensor telemetry for multiple rooms in ThingsBoard using a single Python GUI application and separate configuration files.
+
+## Overview
+
+We use:
+
+* One Python simulator (`app.py`)
+* Multiple JSON config files
+* Each config file represents one device (room)
+* The simulator is run multiple times with different configs
+
+This allows running:
+
+* Grow Room simulator
+* Dark Room simulator
+* Integrated Chamber simulator
+
+---
+
+## Project Structure
+
+```
+thingsboard-simulator/
+│
+├── app.py
+├── config/
+│   ├── grow.json
+│   ├── dark.json
+│   └── chamber.json
+└── README.md
+```
+
+---
+
+## Config File Format
+
+Each config file contains:
+
+```
+{
+  "device_name": "Grow Room",
+  "access_token": "YOUR_DEVICE_TOKEN"
+}
+```
+
+Fields:
+
+* `device_name` → used for window title
+* `access_token` → ThingsBoard device token
+
+---
+
+## How It Works
+
+The simulator reads config file using command line argument:
+
+```
+python app.py config/grow.json
+```
+
+Internally:
+
+* `sys.argv` reads file path
+* JSON is loaded into Python dictionary
+* token + device name are applied dynamically
+
+---
+
+## Running Simulators
+
+Open **three terminals** and run:
+
+### Grow Room
+
+```
+python app.py config/grow.json
+```
+
+### Dark Room
+
+```
+python app.py config/dark.json
+```
+
+### Integrated Chamber
+
+```
+python app.py config/chamber.json
+```
+
+You should see three GUI windows.
+
+Each sends telemetry to its respective ThingsBoard device.
+
+---
+
+## Telemetry Sent
+
+Every 5 seconds:
+
+```
+{
+  "temperature": value,
+  "humidity": value,
+  "co2": value
+}
+```
+
+---
+
+## Default Behavior
+
+If no config is passed:
+
+```
+python app.py
+```
+
+Default config used:
+
+```
+config/grow.json
+```
+
+---
+
+## Git Workflow Used
+
+Feature branch:
+
+```
+multi-room-simulator
+```
+
+Steps:
+
+1. Create branch
+2. Add config support
+3. Run multiple simulators
+4. Update README
+5. Commit and push
+
+---
+
+## Future Extensions
+
+* Add relay simulator GUI
+* Add auto mode simulation
+* Add noise/random telemetry
+* Add environment profiles
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ThingsBoard Python Sensor Simulator
 
 A lightweight Python GUI simulator to send **Temperature**, **Humidity**, and **CO₂** telemetry to **ThingsBoard** via MQTT.
@@ -175,6 +346,7 @@ Create widgets using:
 * Rule engine automation
 
 ---
+
 
 # License
 
